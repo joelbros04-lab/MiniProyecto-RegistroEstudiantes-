@@ -10,10 +10,12 @@ void mostrarMenu() {
     cout << "2. Mostrar estudiantes" << endl;
     cout << "3. Calcular promedio general" << endl;
     cout << "4. Buscar nota mayor" << endl;
-    cout << "5. Salir" << endl;
+    cout << "5. Buscar estudiante" << endl;
+    cout << "6. Salir" << endl;
 
     cout << "Seleccione una opcion: ";
 }
+
 const int MAX = 50;
 
 string nombres[MAX];
@@ -22,6 +24,7 @@ double notas[MAX];
 
 int cantidad = 0;
 
+// Funcion para registrar estudiantes
 void registrarEstudiante(
     string nombres[],
     int edades[],
@@ -54,11 +57,126 @@ void registrarEstudiante(
         cin >> notas[cantidad];
     }
 
-    // IMPORTANTE
-    // aumenta la cantidad de estudiantes
     cantidad++;
 
     cout << "Estudiante registrado correctamente." << endl;
+}
+
+// Funcion para mostrar estudiantes
+void mostrarEstudiantes(
+    string nombres[],
+    int edades[],
+    double notas[],
+    int cantidad
+) {
+
+    cout << "\n=== LISTA DE ESTUDIANTES ===" << endl;
+
+    if(cantidad == 0) {
+
+        cout << "No hay estudiantes registrados." << endl;
+
+        return;
+    }
+
+    for(int i = 0; i < cantidad; i++) {
+
+        cout << "\nEstudiante " << i + 1 << endl;
+
+        cout << "Nombre: "
+             << nombres[i] << endl;
+
+        cout << "Edad: "
+             << edades[i] << endl;
+
+        cout << "Nota: "
+             << notas[i] << endl;
+    }
+}
+
+// Funcion para calcular promedio
+double calcularPromedio(
+    double notas[],
+    int cantidad
+) {
+
+    if(cantidad == 0) {
+
+        return 0;
+    }
+
+    double suma = 0;
+
+    for(int i = 0; i < cantidad; i++) {
+
+        suma += notas[i];
+    }
+
+    return suma / cantidad;
+}
+
+// Funcion para encontrar nota mayor
+double encontrarMayor(
+    double notas[],
+    int cantidad
+) {
+
+    if(cantidad == 0) {
+
+        return 0;
+    }
+
+    double mayor = notas[0];
+
+    for(int i = 1; i < cantidad; i++) {
+
+        if(notas[i] > mayor) {
+
+            mayor = notas[i];
+        }
+    }
+
+    return mayor;
+}
+
+// Funcion para buscar estudiante
+void buscarEstudiante(
+    string nombres[],
+    int edades[],
+    double notas[],
+    int cantidad
+) {
+
+    string buscado;
+
+    cout << "\nIngrese nombre a buscar: ";
+    cin >> buscado;
+
+    bool encontrado = false;
+
+    for(int i = 0; i < cantidad; i++) {
+
+        if(nombres[i] == buscado) {
+
+            cout << "\n=== ESTUDIANTE ENCONTRADO ===" << endl;
+
+            cout << "Nombre: "
+                 << nombres[i] << endl;
+
+            cout << "Edad: "
+                 << edades[i] << endl;
+
+            cout << "Nota: "
+                 << notas[i] << endl;
+
+            encontrado = true;
+        }
+    }
+
+    if(!encontrado) {
+
+        cout << "Estudiante no encontrado." << endl;
+    }
 }
 
 int main() {
@@ -74,30 +192,70 @@ int main() {
         switch(opcion) {
 
             case 1:
-                registrarEstudiante(nombres, edades, notas, cantidad);
+
+                registrarEstudiante(
+                    nombres,
+                    edades,
+                    notas,
+                    cantidad
+                );
+
                 break;
 
             case 2:
-                cout << "Opcion mostrar estudiantes" << endl;
+
+                mostrarEstudiantes(
+                    nombres,
+                    edades,
+                    notas,
+                    cantidad
+                );
+
                 break;
 
             case 3:
-                cout << "Opcion promedio general" << endl;
+
+                cout << "\nPROMEDIO GENERAL: "
+                     << calcularPromedio(
+                            notas,
+                            cantidad
+                        ) << endl;
+
                 break;
 
             case 4:
-                cout << "Opcion nota mayor" << endl;
+
+                cout << "\nNOTA MAYOR: "
+                     << encontrarMayor(
+                            notas,
+                            cantidad
+                        ) << endl;
+
                 break;
 
             case 5:
-                cout << "Saliendo del sistema..." << endl;
+
+                buscarEstudiante(
+                    nombres,
+                    edades,
+                    notas,
+                    cantidad
+                );
+
+                break;
+
+            case 6:
+
+                cout << "\nSaliendo del sistema..." << endl;
+
                 break;
 
             default:
-                cout << "Opcion invalida" << endl;
+
+                cout << "\nOpcion invalida." << endl;
         }
 
-    } while(opcion != 5);
+    } while(opcion != 6);
 
     return 0;
 }
